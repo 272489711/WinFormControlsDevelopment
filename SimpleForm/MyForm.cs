@@ -17,6 +17,7 @@ namespace SimpleForm
         private MyButton myButton;
         private MyClock myClock1;
         private ThermoMeterControl thermoMeterControl1;
+        private MyListControl myListControl;
         private Container components = null;
         public MyForm()
         {
@@ -30,8 +31,21 @@ namespace SimpleForm
             for (int i = 0; i <= 100; i++)
             { 
                 myTrackBar.Value = i;
+
                 thermoMeterControl1.Temperature = i;
                 thermoMeterControl1.Invalidate();
+
+                if (i > 6)
+                {
+                    myListControl.Item[i % 7] = i;
+                    myListControl.Invalidate();
+                }
+                else
+                {
+                    myListControl.Item.Add(i);
+                    myListControl.Invalidate();
+                }
+
                 Thread.Sleep(500);
                 //myTrackBar.Invalidate();
             }
@@ -82,16 +96,22 @@ namespace SimpleForm
             this.myButton.MouseDown += mouseDownEvent;
             this.myButton.MouseUp += mouseUpEvent;
             this.myButton.MouseMove += mouseMoveEvent;
+
+            this.myListControl.MouseDown += mouseDownEvent;
+            this.myListControl.MouseMove += mouseMoveEvent;
+            this.myListControl.MouseUp += mouseUpEvent;
         }
 
         public void InitializeComponent()
         {
+            SampleControl.ScopeAttribute scopeAttribute1 = new SampleControl.ScopeAttribute();
             this.thermoMeterControl1 = new SampleControl.ThermoMeterControl();
             this.myClock1 = new SampleControl.MyClock();
             this.myLabel1 = new SampleControl.MyLabel();
             this.myControl = new SampleControl.FirstControl();
             this.myTrackBar = new SampleControl.FlashTrackBar();
             this.myButton = new SampleControl.MyButton();
+            this.myListControl = new SampleControl.MyListControl();
             this.SuspendLayout();
             // 
             // thermoMeterControl1
@@ -103,7 +123,7 @@ namespace SimpleForm
             this.thermoMeterControl1.DrawColor = System.Drawing.Color.Black;
             this.thermoMeterControl1.DrawFont = new System.Drawing.Font("Microsoft Sans Serif", 9F);
             this.thermoMeterControl1.HighTemperature = 100F;
-            this.thermoMeterControl1.Location = new System.Drawing.Point(205, 189);
+            this.thermoMeterControl1.Location = new System.Drawing.Point(346, 211);
             this.thermoMeterControl1.LowTemperature = 0F;
             this.thermoMeterControl1.MercuryBackColor = System.Drawing.Color.LightGray;
             this.thermoMeterControl1.MercuryColor = System.Drawing.Color.Red;
@@ -124,7 +144,7 @@ namespace SimpleForm
             this.myClock1.MinuteColor = System.Drawing.Color.Blue;
             this.myClock1.Name = "myClock1";
             this.myClock1.SecondColor = System.Drawing.Color.Red;
-            this.myClock1.Size = new System.Drawing.Size(164, 171);
+            this.myClock1.Size = new System.Drawing.Size(200, 200);
             this.myClock1.TabIndex = 4;
             this.myClock1.Text = "myClock1";
             this.myClock1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mouseDownEvent);
@@ -175,12 +195,25 @@ namespace SimpleForm
             this.myButton.ButtonBorder = 1;
             this.myButton.ButtonBorderColor = System.Drawing.Color.Sienna;
             this.myButton.Cursor = System.Windows.Forms.Cursors.Default;
-            this.myButton.Location = new System.Drawing.Point(27, 166);
+            this.myButton.Location = new System.Drawing.Point(-3, 178);
             this.myButton.Name = "myButton";
             this.myButton.Size = new System.Drawing.Size(107, 51);
             this.myButton.TabIndex = 3;
             this.myButton.Text = "I am a button";
             this.myButton.UseVisualStyleBackColor = false;
+            // 
+            // myListControl
+            // 
+            this.myListControl.BackColor = System.Drawing.SystemColors.Control;
+            this.myListControl.Cursor = System.Windows.Forms.Cursors.Default;
+            this.myListControl.ForeColor = System.Drawing.Color.Cornsilk;
+            this.myListControl.Location = new System.Drawing.Point(195, 237);
+            this.myListControl.Name = "myListControl";
+            scopeAttribute1.Max = 100;
+            scopeAttribute1.Min = 3;
+            this.myListControl.Scope = scopeAttribute1;
+            this.myListControl.Size = new System.Drawing.Size(30, 100);
+            this.myListControl.TabIndex = 6;
             // 
             // MyForm
             // 
@@ -191,12 +224,10 @@ namespace SimpleForm
             this.Controls.Add(this.myControl);
             this.Controls.Add(this.myTrackBar);
             this.Controls.Add(this.myButton);
+            this.Controls.Add(this.myListControl);
             this.Location = new System.Drawing.Point(300, 100);
             this.Name = "MyForm";
             this.Text = "控件窗口";
-            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mouseDownEvent);
-            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.mouseMoveEvent);
-            this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mouseUpEvent);
             this.ResumeLayout(false);
             this.PerformLayout();
 

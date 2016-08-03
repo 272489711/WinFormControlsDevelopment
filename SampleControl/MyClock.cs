@@ -142,7 +142,7 @@ namespace SampleControl
         private void DrawHourHand(Graphics g, Pen p)
         {
             GraphicsState gs = g.Save();
-            g.RotateTransform((360.0F * (DateTime.Now.Hour%12) / 12 + 2.0F*DateTime.Now.Minute/60 + 2.0F * DateTime.Now.Second / 60));
+            g.RotateTransform((360.0F * (DateTime.Now.Hour%12) / 12 + 6.0F*DateTime.Now.Minute/12 ));
             g.DrawLine(p, 0, 0, 0, -40*ScaleHand());
             g.Restore(gs);
         }
@@ -186,9 +186,12 @@ namespace SampleControl
             float height = this.Height - 80 * this.Height / 250F;
             graphics.FillPie(new SolidBrush(this.BackColor), -width / 2, -height / 2, width, height, 0, 360);
             pen.Color = _hourColor;
+            pen.Width = 3;
             DrawHourHand(graphics, pen);
+            pen.Width = 2;
             pen.Color = _minuteColor;
             DrawMinuteHand(graphics, pen);
+            pen.Width = 1;
             pen.Color = _secondColor;
             DrawSecondHand(graphics, pen);
         }

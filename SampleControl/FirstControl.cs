@@ -16,8 +16,19 @@ namespace SampleControl
         }
 
         private ContentAlignment alignmentValue = ContentAlignment.MiddleLeft;
+        private Color _textColor = Color.Blue;
+
+        [DefaultValue(typeof(Color),"Blue")]
+        [Category("颜色"),Description("字体颜色")]
+        public Color TextColor
+        {
+            get { return _textColor; }
+            set { _textColor = value; Invalidate(); }
+        }
+        
 
         [Category("Alignment"), Description("指定内容的对齐方式")]
+        
         public ContentAlignment TextAlignment
         {
             get 
@@ -30,7 +41,6 @@ namespace SampleControl
                 Invalidate();
             }
         }
-
 
         protected override void OnPaint(PaintEventArgs e)
         {
@@ -48,8 +58,8 @@ namespace SampleControl
                     style.Alignment = StringAlignment.Center;
                     break;
             }
-
-            e.Graphics.DrawString(Text, Font, new SolidBrush(ForeColor), ClientRectangle, style);
+            
+            e.Graphics.DrawString(Text, Font, new SolidBrush(_textColor), ClientRectangle, style);
 
         }
 
